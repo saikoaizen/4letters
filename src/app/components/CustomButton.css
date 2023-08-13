@@ -1,0 +1,38 @@
+.customButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  align-self: stretch;
+  min-width: fit-content;
+  border-radius: 1.25rem;
+  border: 3px solid rgba(255, 255, 255, 0);
+  color: #fff;
+  text-align: center;
+  font-family: 'Viga', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 550;
+  padding: 0.4rem 1.5rem;
+  transition:
+    background-color 0.1s,
+    border-color 0.2s,
+    opacity 0.1s;
+}
+
+.customButton:hover {
+  cursor: pointer;
+  border: 3px solid rgba(255, 255, 255, 0.7);
+}
+
+.customButton:active {
+  border: 3px solid rgba(255, 255, 255, 0);
+  opacity: 0.8;
+}
+
+@media (max-width: 550px) {
+  .customButton {
+    padding: 0.1rem 0.5rem;
+    font-size: 0.7rem;
+    white-space: nowrap;
+  }
+}
