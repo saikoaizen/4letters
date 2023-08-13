@@ -1,5 +1,5 @@
-import { TitleText } from './Components.style'
+import styles from './Components.module.css';
 
 export default function Title() {
-  return <TitleText>4letters</TitleText>
+  return <h1 className={styles.titleText}>4letters</h1>;
 }

@@ -1,0 +1,182 @@
+.pageWrapper {
+  display: flex;
+  max-width: fit-content;
+  width: auto;
+  height: 100vh;
+  padding: 4rem 2rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  margin: 0 auto;
+}
+
+.titleText {
+  color: #fff;
+  text-align: center;
+  font-family: 'Zilla Slab Highlight', cursive;
+  font-size: 2.5rem;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.14rem;
+  margin-bottom: 1rem;
+}
+
+.customBox {
+  display: flex;
+  padding: 0.5rem;
+  width: 100%;
+  min-width: fit-content;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  border-radius: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0);
+  background: var(--black-color);
+}
+
+.wrapper {
+  display: flex;
+  padding: 1rem 1.5rem;
+  width: 100%;
+  min-width: fit-content;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.settingsWrapper {
+  display: flex;
+  padding: 1rem 1.5rem;
+  width: 100%;
+  min-width: fit-content;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+@media (max-width: 550px) {
+  .settingsWrapper {
+    gap: 0.2rem;
+  }
+}
+
+.customButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  align-self: stretch;
+  min-width: fit-content;
+  border-radius: 1.25rem;
+  border: 3px solid rgba(255, 255, 255, 0);
+  color: #fff;
+  text-align: center;
+  font-family: 'Viga', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 550;
+  padding: 0.4rem 1.5rem;
+  transition: background-color 0.1s, border-color 0.2s, opacity 0.1s;
+}
+
+.customButton:hover {
+  cursor: pointer;
+  border: 3px solid rgba(255, 255, 255, 0.7);
+}
+
+.customButton:active {
+  border: 3px solid rgba(255, 255, 255, 0);
+  opacity: 0.8;
+}
+
+@media (max-width: 550px) {
+  .customButton {
+    padding: 0.1rem 0.5rem;
+    font-size: 0.7rem;
+    white-space: nowrap;
+  }
+}
+
+.customInput {
+  display: inline;
+  color: white;
+  font-family: 'Zilla Slab', sans-serif;
+  font-size: 1rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.04375rem;
+  width: 100%;
+  min-width: fit-content;
+  flex-shrink: 0;
+  border-radius: 1.25rem;
+  border: 1px solid rgba(153, 153, 153, 0.44);
+  background: var(--grey-color);
+  padding: 0.5rem 1rem;
+  outline: none;
+}
+
+.customInput:focus {
+  color: #ffffff;
+  border-color: var(--green-color);
+}
+
+.customInput::placeholder {
+  color: #999;
+}
+
+.waitingText {
+  text-align: center;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 550;
+  letter-spacing: -0.07rem;
+  background: white;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.simpleText {
+  color: #fff;
+  text-align: center;
+  font-family: 'Viga', sans-serif;
+  font-size: 1.2rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+@media (max-width: 550px) {
+  .simpleText {
+    font-size: 1rem;
+  }
+}
+
+.playerDisplayBox {
+  display: flex;
+  width: 100%;
+  padding: 0.25rem 1.25rem;
+  justify-content: space-between;
+  border-radius: 1.25rem;
+  background: var(--darkblue-color);
+}
+
+
+@media (max-width: 550px) {
+  .playerDisplayBox {
+    width: 100%;
+    gap: 6rem;
+    flex-direction: row;
+  }
+}
+
+.playerAndIcon {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}

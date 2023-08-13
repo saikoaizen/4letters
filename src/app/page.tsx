@@ -4,5 +4,5 @@ import JoinPage from './pages/JoinPage'
 import RoomPage from './pages/RoomPage'
 
 export default function Home() {
-  return <HomePage />
+  return <GamePage />
 }

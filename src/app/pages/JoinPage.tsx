@@ -1,27 +1,27 @@
-import Title from '../components/Title'
-import colors from '../util/colors'
-import {
-  PageWrapper,
-  CustomBox,
-  CustomButton,
-  CustomInput,
-  Wrapper,
-  WaitingText,
-} from '../components/Components.style'
+import Title from '../components/Title';
+import styles from '../components/Components.module.css';
+import colors from '../util/colors';
 
 export default function HomePage() {
   return (
-    <PageWrapper>
+    <div className={styles.pageWrapper}>
       <Title />
-      <CustomBox>
-        <WaitingText>John is waiting...</WaitingText>
-        <Wrapper>
-          <CustomInput placeholder="Enter your name..." maxLength={20} />
-          <CustomButton style={{ background: colors.green }}>
+      <div className={styles.customBox}>
+        <p className={styles.waitingText}>John is waiting...</p>
+        <div className={styles.wrapper}>
+          <input
+            className={styles.customInput}
+            placeholder="Enter your name..."
+            maxLength={20}
+          />
+          <button
+            className={styles.customButton}
+            style={{ backgroundColor: colors.green }}
+          >
             Join Room
-          </CustomButton>
-        </Wrapper>
-      </CustomBox>
-    </PageWrapper>
-  )
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }
