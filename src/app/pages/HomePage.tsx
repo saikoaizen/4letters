@@ -1,32 +1,20 @@
-import Title from '../components/Title';
-import colors from '../util/colors';
-import styles from '../components/Components.module.css';
+import Title from '../components/Title'
+import colors from '../util/colors'
+import '../components/Common.css'
+import CustomButton from '../components/CustomButton'
+import CustomInput from '../components/CustomInput'
 
 export default function HomePage() {
   return (
-    <div className={styles.pageWrapper}>
+    <div className="pageWrapper">
       <Title />
-      <div className={styles.customBox}>
-        <input
-          className={styles.customInput}
-          placeholder="Enter your name..."
-          maxLength={20}
-        />
-        <div className={styles.wrapper}>
-          <button
-            className={`${styles.customButton}`}
-            style={{backgroundColor: colors.blue}}
-          >
-            Start Game
-          </button>
-          <button
-            className={`${styles.customButton}`}
-            style={{backgroundColor: colors.green}}
-          >
-            Create Private Room
-          </button>
+      <div className="customBox">
+        <CustomInput />
+        <div className="wrapper">
+          <CustomButton color={colors.blue} text="Start Game" />
+          <CustomButton color={colors.green} text="Create Private Room" />
         </div>
       </div>
     </div>
-  );
+  )
 }

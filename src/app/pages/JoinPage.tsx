@@ -1,27 +1,20 @@
-import Title from '../components/Title';
-import styles from '../components/Components.module.css';
-import colors from '../util/colors';
+import Title from '../components/Title'
+import '../components/Common.css'
+import colors from '../util/colors'
+import CustomButton from '../components/CustomButton'
+import CustomInput from '../components/CustomInput'
 
-export default function HomePage() {
+export default function JoinPage() {
   return (
-    <div className={styles.pageWrapper}>
+    <div className="pageWrapper">
       <Title />
-      <div className={styles.customBox}>
-        <p className={styles.waitingText}>John is waiting...</p>
-        <div className={styles.wrapper}>
-          <input
-            className={styles.customInput}
-            placeholder="Enter your name..."
-            maxLength={20}
-          />
-          <button
-            className={styles.customButton}
-            style={{ backgroundColor: colors.green }}
-          >
-            Join Room
-          </button>
+      <div className="customBox">
+        <p className="waitingText">John is waiting...</p>
+        <div className="wrapper">
+          <CustomInput />
+          <CustomButton color={colors.green} text="Join Room" />
         </div>
       </div>
     </div>
-  );
+  )
 }

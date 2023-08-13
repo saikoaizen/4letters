@@ -1,58 +1,46 @@
-import Image from 'next/image';
-import colors from '../util/colors';
-import PlayerDisplay from '../components/PlayerDisplay';
-import SecretIcon from '../../../public/SecretIcon.svg';
-import Title from '../components/Title';
-import styles from '../components/Components.module.css';
+import Image from 'next/image'
+import colors from '../util/colors'
+import PlayerDisplay from '../components/PlayerDisplay'
+import SecretIcon from '../../../public/SecretIcon.svg'
+import Title from '../components/Title'
+import '../components/Common.css'
+import CustomButton from '../components/CustomButton'
+import CustomInput from '../components/CustomInput'
 
 export default function RoomPage() {
   return (
-    <div className={styles.pageWrapper}>
+    <div className="pageWrapper">
       <Title />
-      <div className={`${styles.customBox}`}>
-        <p className={styles.simpleText}>Players Active:</p>
-        <div className={styles.wrapper}>
+      <div className="customBox">
+        <p className="simpleText">Players Active:</p>
+        <div className="wrapper">
           <PlayerDisplay name="Michael" />
           <PlayerDisplay name="John" />
         </div>
       </div>
-      <div className={`${styles.customBox}`}>
-        <div className={styles.Wrapper}>
-          <p className={styles.simpleText}>Reveal Winners Word?</p>
-          <div className={`${styles.settingsWrapper} ${styles.flexRow}`}>
-            <button className={styles.customButton}>Yes</button>
-            <button className={styles.customButton}>No</button>
+      <div className="customBox">
+        <div className="Wrapper">
+          <p className="simpleText">Reveal Winners Word?</p>
+          <div className="settingsWrapper flexRow">
+            <CustomButton text="Yes" />
+            <CustomButton text="No" />
           </div>
         </div>
-        <div className={`${styles.Wrapper}`}>
-          <p className={styles.simpleText}>Time Per Turn?</p>
-          <div className={`${styles.settingsWrapper} ${styles.flexRow}`}>
-            <button className={styles.customButton}>30 sec</button>
-            <button className={styles.customButton}>1 min</button>
-            <button className={styles.customButton}>3 mins</button>
-            <button className={styles.customButton}>5 mins</button>
+        <div className="Wrapper">
+          <p className="simpleText">Time Per Turn?</p>
+          <div className="settingsWrapper flexRow">
+            <CustomButton text="30 sec" />
+            <CustomButton text="1 min" />
+            <CustomButton text="3 mins" />
+            <CustomButton text="5 mins" />
           </div>
         </div>
       </div>
-      <div className={`${styles.settingsWrapper}`}>
+      <div className="settingsWrapper">
         <Image src={SecretIcon} alt="SecretIcon" width={30} height={30} />
-        <input
-          className={`${styles.customInput} ${styles.uppercase}`}
-          placeholder="Secret Word?"
-          maxLength={4}
-          style={{ textTransform: 'uppercase' }}
-        />
+        <CustomInput placeHolder="SECRET WORD?" maxLength={4} />
       </div>
-      <button
-        className={`${styles.customButton}`}
-        style={{
-          backgroundColor: colors.green,
-          fontSize: '15px',
-          minWidth: 'fit-content',
-        }}
-      >
-        Start Game
-      </button>
+      <CustomButton color={colors.green} text="Start Game" />
     </div>
-  );
+  )
 }
