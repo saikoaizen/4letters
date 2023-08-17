@@ -3,13 +3,7 @@
   color: white;
   font-family: 'Zilla Slab', sans-serif;
   font-size: 1rem;
-  font-style: normal;
-  font-weight: 400;
-  line-height: normal;
-  letter-spacing: -0.04375rem;
   width: 100%;
-  min-width: fit-content;
-  flex-shrink: 0;
   border-radius: 1.25rem;
   border: 1px solid rgba(153, 153, 153, 0.44);
   background: var(--grey-color);
@@ -24,4 +18,12 @@
 
 .customInput::placeholder {
   color: #999;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .customInput {
+    font-size: 0.9rem;
+    padding: 0.4rem 0.8rem;
+  }
 }

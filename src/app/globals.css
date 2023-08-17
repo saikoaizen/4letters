@@ -39,11 +39,14 @@
   --card-rgb: 180, 185, 188;
   --card-border-rgb: 131, 134, 135;
 
-  --blue-color: #0094FF;
-  --green-color: #00A839;
-  --black-color: #0A0A0A;
+  /*COLOR PALETTE FOR THIS PROJECT PROJECT*/
+  --blue-color: #0094ff;
+  --green-color: #00a839;
+  --black-color: #0a0a0a;
   --grey-color: #252525;
-  --darkblue-color: #0085FF3D;
+  --darkblue-color: #0085ff3d;
+  --cyan-color: #00ffff;
+  --turquoise-color: #00ff95;
 }
 
 @media (prefers-color-scheme: dark) {

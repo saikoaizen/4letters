@@ -1,20 +1,23 @@
 import Title from '../components/Title'
-import '../components/Common.css'
+import '../components/primitive/Common.css'
 import colors from '../util/colors'
-import CustomButton from '../components/CustomButton'
-import CustomInput from '../components/CustomInput'
+import CustomButton from '../components/primitive/CustomButton'
+import CustomInput from '../components/primitive/CustomInput'
+import PageWrapper from '../components/primitive/PageWrapper'
+import Wrapper from '../components/primitive/Wrapper'
+import MenuBox from '../components/primitive/MenuBox'
 
 export default function JoinPage() {
   return (
-    <div className="pageWrapper">
+    <PageWrapper>
       <Title />
-      <div className="customBox">
+      <MenuBox>
         <p className="waitingText">John is waiting...</p>
-        <div className="wrapper">
-          <CustomInput />
+        <Wrapper>
+          <CustomInput placeHolder="Enter your name..." maxLength={20} />
           <CustomButton color={colors.green} text="Join Room" />
-        </div>
-      </div>
-    </div>
+        </Wrapper>
+      </MenuBox>
+    </PageWrapper>
   )
 }

@@ -1,0 +1,50 @@
+.messageRight,
+.messageLeft {
+  display: flex;
+  width: 100%;
+  font-size: 0.95rem;
+  padding: 0.5rem;
+  align-items: flex-end;
+}
+
+.messageRight {
+  justify-content: flex-end;
+}
+
+.messageLeft {
+  justify-content: flex-start;
+}
+
+.message {
+  position: relative;
+  display: flex;
+  max-width: 80%;
+  width: fit-content;
+  padding: 0.5rem;
+  border-radius: 1rem;
+  color: black;
+  background: #d9d9d9;
+  font-family: 'Viga', sans-serif;
+}
+
+@media screen and (max-width: 768px) {
+  .messageRight,
+  .messageLeft {
+    font-size: 0.7rem;
+  }
+
+  .message {
+    max-width: 80%;
+  }
+}
+
+@media screen and (max-width: 468px) {
+  .messageRight,
+  .messageLeft {
+    font-size: 0.5rem;
+  }
+
+  .message {
+    max-width: 80%;
+  }
+}

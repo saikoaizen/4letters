@@ -3,44 +3,42 @@ import colors from '../util/colors'
 import PlayerDisplay from '../components/PlayerDisplay'
 import SecretIcon from '../../../public/SecretIcon.svg'
 import Title from '../components/Title'
-import '../components/Common.css'
-import CustomButton from '../components/CustomButton'
-import CustomInput from '../components/CustomInput'
+import '../components/primitive/Common.css'
+import CustomButton from '../components/primitive/CustomButton'
+import CustomInput from '../components/primitive/CustomInput'
+import LinkDisplay from '../components/LinkDisplay'
+import PageWrapper from '../components/primitive/PageWrapper'
+import Wrapper from '../components/primitive/Wrapper'
+import MenuBox from '../components/primitive/MenuBox'
+import WrapperHorizontal from '../components/primitive/WrapperHorizontal'
+import Settings from '../components/Settings'
 
 export default function RoomPage() {
   return (
-    <div className="pageWrapper">
+    <PageWrapper>
       <Title />
-      <div className="customBox">
+      <LinkDisplay link={'https://4letters.io/room?=4eQ9ssJq'} />
+      <MenuBox>
         <p className="simpleText">Players Active:</p>
-        <div className="wrapper">
+        <Wrapper>
           <PlayerDisplay name="Michael" />
           <PlayerDisplay name="John" />
-        </div>
-      </div>
-      <div className="customBox">
-        <div className="Wrapper">
-          <p className="simpleText">Reveal Winners Word?</p>
-          <div className="settingsWrapper flexRow">
-            <CustomButton text="Yes" />
-            <CustomButton text="No" />
-          </div>
-        </div>
-        <div className="Wrapper">
-          <p className="simpleText">Time Per Turn?</p>
-          <div className="settingsWrapper flexRow">
-            <CustomButton text="30 sec" />
-            <CustomButton text="1 min" />
-            <CustomButton text="3 mins" />
-            <CustomButton text="5 mins" />
-          </div>
-        </div>
-      </div>
-      <div className="settingsWrapper">
+        </Wrapper>
+      </MenuBox>
+      <Settings />
+      <WrapperHorizontal>
         <Image src={SecretIcon} alt="SecretIcon" width={30} height={30} />
-        <CustomInput placeHolder="SECRET WORD?" maxLength={4} />
-      </div>
+        <CustomInput
+          placeHolder="SECRET WORD?"
+          maxLength={4}
+          customStyle={{
+            textTransform: 'uppercase',
+            maxWidth: 'fit-content',
+            background: colors.black,
+          }}
+        />
+      </WrapperHorizontal>
       <CustomButton color={colors.green} text="Start Game" />
-    </div>
+    </PageWrapper>
   )
 }

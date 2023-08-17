@@ -1,20 +1,23 @@
 import Title from '../components/Title'
 import colors from '../util/colors'
-import '../components/Common.css'
-import CustomButton from '../components/CustomButton'
-import CustomInput from '../components/CustomInput'
+import '../components/primitive/Common.css'
+import CustomButton from '../components/primitive/CustomButton'
+import CustomInput from '../components/primitive/CustomInput'
+import PageWrapper from '../components/primitive/PageWrapper'
+import Wrapper from '../components/primitive/Wrapper'
+import MenuBox from '../components/primitive/MenuBox'
 
 export default function HomePage() {
   return (
-    <div className="pageWrapper">
+    <PageWrapper>
       <Title />
-      <div className="customBox">
-        <CustomInput />
-        <div className="wrapper">
-          <CustomButton color={colors.blue} text="Start Game" />
-          <CustomButton color={colors.green} text="Create Private Room" />
-        </div>
-      </div>
-    </div>
+      <MenuBox>
+        <CustomInput placeHolder="Enter your name..." maxLength={20} />
+        <Wrapper>
+          <CustomButton color={colors.green} text="Start Game" />
+          <CustomButton color={colors.blue} text="Create Private Room" />
+        </Wrapper>
+      </MenuBox>
+    </PageWrapper>
   )
 }

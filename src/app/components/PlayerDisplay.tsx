@@ -1,4 +1,4 @@
-import './Common.css'
+import './primitive/Common.css'
 import PlayerIcon from '../../../public/PlayerIcon.svg'
 import CheckIcon from '../../../public/CheckIcon.svg'
 import Image from 'next/image'
