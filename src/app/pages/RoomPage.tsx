@@ -7,38 +7,33 @@ import '../components/primitive/Common.css'
 import CustomButton from '../components/primitive/CustomButton'
 import CustomInput from '../components/primitive/CustomInput'
 import LinkDisplay from '../components/LinkDisplay'
-import PageWrapper from '../components/primitive/PageWrapper'
-import Wrapper from '../components/primitive/Wrapper'
-import MenuBox from '../components/primitive/MenuBox'
-import WrapperHorizontal from '../components/primitive/WrapperHorizontal'
 import Settings from '../components/Settings'
 
 export default function RoomPage() {
   return (
-    <PageWrapper>
+    <div className="pageWrapper">
       <Title />
       <LinkDisplay link={'https://4letters.io/room?=4eQ9ssJq'} />
-      <MenuBox>
+      <div className="menuBox">
         <p className="simpleText">Players Active:</p>
-        <Wrapper>
+        <div className="wrapper">
           <PlayerDisplay name="Michael" />
           <PlayerDisplay name="John" />
-        </Wrapper>
-      </MenuBox>
+        </div>
+      </div>
       <Settings />
-      <WrapperHorizontal>
+      <div className="wrapperHorizontal">
         <Image src={SecretIcon} alt="SecretIcon" width={30} height={30} />
         <CustomInput
           placeHolder="SECRET WORD?"
           maxLength={4}
           customStyle={{
-            textTransform: 'uppercase',
             maxWidth: 'fit-content',
             background: colors.black,
           }}
         />
-      </WrapperHorizontal>
+      </div>
       <CustomButton color={colors.green} text="Start Game" />
-    </PageWrapper>
+    </div>
   )
 }

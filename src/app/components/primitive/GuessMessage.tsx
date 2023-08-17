@@ -1,6 +1,6 @@
 import styles from './GuessMessage.module.css'
 
-type Props = {
+interface Props {
   guessWord: string
   result: number
   alignment: number

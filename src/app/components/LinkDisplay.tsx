@@ -2,7 +2,6 @@
 
 import React, { useState } from 'react'
 import CustomInput from './primitive/CustomInput'
-import WrapperHorizontal from './primitive/WrapperHorizontal'
 import Image from 'next/image'
 import CopyLinkIcon from '../../../public/CopyLinkIcon.svg'
 import styles from './LinkDisplay.module.css'
@@ -21,7 +20,7 @@ export default function LinkDisplay({ link }: { link: string }) {
   }
 
   return (
-    <WrapperHorizontal>
+    <div className="wrapperHorizontal">
       <CustomInput
         initialValue={link}
         interactable={false}
@@ -38,6 +37,6 @@ export default function LinkDisplay({ link }: { link: string }) {
         />
         {copied && <span className={styles.copiedMessage}>Copied</span>}
       </div>
-    </WrapperHorizontal>
+    </div>
   )
 }
