@@ -2,9 +2,6 @@
 
 import { useState } from 'react'
 import CustomButton from './primitive/CustomButton'
-import MenuBox from './primitive/MenuBox'
-import Wrapper from './primitive/Wrapper'
-import WrapperHorizontal from './primitive/WrapperHorizontal'
 
 export default function Settings() {
   const [revealWord, setRevealWord] = useState('')
@@ -22,10 +19,10 @@ export default function Settings() {
   }
 
   return (
-    <MenuBox>
-      <Wrapper>
+    <div className="menuBox">
+      <div className="wrapper">
         <p className="simpleText">Reveal Winners Word?</p>
-        <WrapperHorizontal>
+        <div className="wrapperHorizontal">
           {revealOptions.map((option) => (
             <CustomButton
               key={option}
@@ -34,11 +31,11 @@ export default function Settings() {
               onClick={() => handleRevealOptionClick(option)}
             />
           ))}
-        </WrapperHorizontal>
-      </Wrapper>
-      <Wrapper>
+        </div>
+      </div>
+      <div className="wrapper">
         <p className="simpleText">Time Per Turn?</p>
-        <WrapperHorizontal>
+        <div className="wrapperHorizontal">
           {timeOptions.map((option) => (
             <CustomButton
               key={option}
@@ -47,8 +44,8 @@ export default function Settings() {
               onClick={() => handleTimeOptionClick(option)}
             />
           ))}
-        </WrapperHorizontal>
-      </Wrapper>
-    </MenuBox>
+        </div>
+      </div>
+    </div>
   )
 }
