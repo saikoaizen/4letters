@@ -1,0 +1,23 @@
+---
+import Layout from '../layouts/Layout.astro';
+import CustomButton from '../components/CustomButton';
+import CustomInput from '../components/CustomInput';
+import Title from '../components/Title'; 
+import '../components/Common.css'
+import colors from '../utils/colors'
+---
+
+
+<Layout title='HomePage'>
+    <div class="pageWrapper">
+      <Title />
+      <div class="menuBox">
+        <CustomInput placeHolder="Enter your name..." maxLength={20} />
+        <div class="wrapper">
+          <CustomButton color={colors.green} text="Start Game" />
+          <CustomButton color={colors.blue} text="Create Private Room" />
+        </div>
+      </div>
+    </div>
+</Layout>
+

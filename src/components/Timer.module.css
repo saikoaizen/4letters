@@ -1,0 +1,39 @@
+.timerBox {
+  display: flex;
+  padding: 0.25rem 1.25rem;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+  border-radius: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0);
+  background: rgba(20, 255, 0, 0.65);
+}
+
+.playerName {
+  color: #fff;
+  text-align: center;
+  font-family: Viga;
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.04375rem;
+}
+
+.timer {
+  display: flex;
+  width: 4.625rem;
+  height: 1.625rem;
+  flex-direction: column;
+  justify-content: center;
+  flex-shrink: 0;
+  color: #fff;
+  text-align: center;
+  font-family: Jua;
+  font-size: 1.2rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  border-radius: 1.25rem;
+  background: #7e7e7e;
+}

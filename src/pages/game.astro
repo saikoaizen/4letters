@@ -1,0 +1,46 @@
+---
+import CircleButton from "../components/CircleButton";
+import CustomInput from "../components/CustomInput";
+import colors from "../utils/colors";
+import "../components/Common.css";
+import Title from "../components/Title";
+import GuessButton from "../components/GuessButton";
+import GuessMessage from "../components/GuessMessage";
+import Message from "../components/Message";
+import Timer from "../components/Timer";
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="GamePage">
+  <div class="pageWrapper">
+    <Title />
+    <div class="horizontalGamePage">
+      <div class="chatBox">
+        <Timer />
+        <div class="guessMessagesBox">
+          <GuessMessage guessWord={"BOLT"} result={0} alignment={0} />
+          <GuessMessage guessWord={"TIME"} result={3} alignment={1} />
+          <GuessMessage guessWord={"LINK"} result={1} alignment={0} />
+        </div>
+        <div class="bottomHorizontalGuessBox">
+          <GuessButton />
+          <Timer />
+        </div>
+      </div>
+      <div class="chatBox">
+        <div class="messagesBox">
+          <Message
+            text={"You can adjust these values as needed to achieve the desired responsiveness. The use of viewport units allows your layout to adjust proportionally based on the size of the viewport, making it more adaptable to different screen sizes."}
+            alignment={0}
+          />
+          <Message text={"Testing message"} alignment={1} />
+          <Message text={"Testing message"} alignment={0} />
+        </div>
+        <div class="wrapperHorizontal">
+          <CustomInput maxLength={100} />
+          <CircleButton color={colors.blue} text=">" size={17} />
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>

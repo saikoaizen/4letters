@@ -1,0 +1,37 @@
+.circleButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: auto;
+  aspect-ratio: 1;
+  padding: 0.5rem;
+  border-radius: 100%;
+  border: 3px solid rgba(255, 255, 255, 0);
+  color: #fff;
+  text-align: center;
+  font-family: 'Viga', sans-serif;
+  font-size: 1rem;
+  font-weight: 550;
+  transition:
+    background-color 0.1s,
+    border-color 0.2s,
+    opacity 0.1s;
+}
+
+.circleButton:hover {
+  cursor: pointer;
+  border: 3px solid rgba(255, 255, 255, 0.7);
+}
+
+.circleButton:active {
+  border: 3px solid rgba(255, 255, 255, 0);
+  opacity: 0.8;
+}
+
+@media (max-width: 550px) {
+  .circleButton {
+    padding: 0.1rem 0.5rem;
+    font-size: 0.7rem;
+    white-space: nowrap;
+  }
+}

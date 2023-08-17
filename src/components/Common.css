@@ -1,0 +1,190 @@
+.pageWrapper {
+  display: flex;
+  width: fit-content;
+  align-items: center;
+  min-height: 100vh;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin: 0 auto;
+}
+
+.customBox {
+  display: flex;
+  padding: 0.5rem;
+  width: 100%;
+  min-width: fit-content;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  border-radius: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0);
+  background: var(--black-color);
+}
+
+.guessWrapper {
+  display: flex;
+  gap: 6rem;
+}
+
+.wrapper {
+  display: flex;
+  width: 100%;
+  min-width: fit-content;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.wrapperHorizontal {
+  display: flex;
+  width: 100%;
+  min-width: fit-content;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.waitingText {
+  text-align: center;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.5rem;
+  font-style: normal;
+  font-weight: 550;
+  letter-spacing: -0.07rem;
+  background: white;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.simpleText {
+  color: #fff;
+  text-align: center;
+  font-family: 'Viga', sans-serif;
+  font-size: 1.2rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+@media (max-width: 550px) {
+  .simpleText {
+    font-size: 1rem;
+  }
+}
+
+.playerDisplayBox {
+  display: flex;
+  width: 100%;
+  padding: 0.25rem 1.25rem;
+  justify-content: space-between;
+  border-radius: 1.25rem;
+  background: var(--darkblue-color);
+}
+
+@media (max-width: 550px) {
+  .playerDisplayBox {
+    width: 100%;
+    gap: 6rem;
+    flex-direction: row;
+  }
+}
+
+.playerAndIcon {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.guessMessagesBox {
+  gap: 1rem;
+  flex-direction: column;
+  display: flex;
+  width: 100%;
+}
+
+.messagesBox {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+}
+
+.bottomHorizontalGuessBox {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+}
+
+.horizontalGamePage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  max-width: 60%;
+  gap: 0.5rem;
+  height: 60vh;
+}
+
+.horizontalGamePage > :first-child {
+  min-width: 50%;
+}
+
+.horizontalGamePage > :nth-child(2) {
+  min-width: 50%;
+}
+
+@media (max-width: 500px) {
+  .horizontalGamePage {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0.2rem;
+    max-width: 100%;
+  }
+
+  .horizontalGamePage > :first-child,
+  .horizontalGamePage > :nth-child(2) {
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 1000px) {
+  .horizontalGamePage {
+    max-width: 100%;
+  }
+}
+
+.menuBox {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-width: fit-content;
+  padding: 1rem;
+  gap: 2rem;
+  border-radius: 1.25rem;
+  background: var(--black-color);
+}
+
+.chatBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  width: 100%;
+  height: 100%; /* This will make the element fill the parent's height */
+  flex-direction: column;
+  gap: 1rem;
+  border-radius: 2rem;
+  background: #070707e0;
+}
