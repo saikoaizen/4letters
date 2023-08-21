@@ -10,8 +10,10 @@ import colors from '../util/colors'
 export default function LinkDisplay({ link }: { link: string }) {
   const [copied, setCopied] = useState(false)
 
+  const url = 'http://localhost:3000/join?roomCode='
+
   const copyToClipboard = () => {
-    navigator.clipboard.writeText(link).then(() => {
+    navigator.clipboard.writeText(url + link).then(() => {
       setCopied(true)
       setTimeout(() => {
         setCopied(false)
@@ -22,7 +24,7 @@ export default function LinkDisplay({ link }: { link: string }) {
   return (
     <div className="wrapperHorizontal">
       <CustomInput
-        initialValue={link}
+        initialValue={url + link}
         interactable={false}
         customStyle={{ color: colors.cyan }}
       />

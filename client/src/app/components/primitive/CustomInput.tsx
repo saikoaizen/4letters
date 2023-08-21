@@ -9,6 +9,7 @@ interface Props {
   customStyle?: object
   interactable?: boolean
   initialValue?: string
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 export default function CustomInput({
@@ -17,6 +18,7 @@ export default function CustomInput({
   customStyle = {},
   interactable = true,
   initialValue = '',
+  onChange = () => {},
 }: Props) {
   const [inputValue, setInputValue] = useState(initialValue)
 
@@ -28,7 +30,10 @@ export default function CustomInput({
       style={customStyle}
       readOnly={!interactable}
       value={inputValue}
-      onChange={(e) => setInputValue(e.target.value)}
+      onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+        setInputValue(e.target.value)
+        onChange(e)
+      }}
     />
   )
 }

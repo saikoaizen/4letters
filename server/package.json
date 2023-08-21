@@ -1,0 +1,22 @@
+{
+  "name": "4letters-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon --exec ts-node server.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "http": "^0.0.1-security",
+    "nodemon": "^3.0.1",
+    "socket.io": "^4.7.2",
+    "typescript": "^5.1.6"
+  },
+  "devDependencies": {
+    "@types/socket.io": "^3.0.2",
+    "ts-node": "^10.9.1"
+  }
+}

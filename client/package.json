@@ -16,6 +16,8 @@
     "@types/react-dom": "18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.3.0",
     "add": "^2.0.6",
+    "bufferutil": "^4.0.7",
+    "dotenv": "^16.3.1",
     "eslint": "8.46.0",
     "eslint-config-next": "13.4.13",
     "eslint-config-prettier": "^9.0.0",
@@ -23,7 +25,9 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "sharp": "^0.32.4",
-    "typescript": "5.1.6"
+    "socket.io-client": "^4.7.2",
+    "typescript": "5.1.6",
+    "utf-8-validate": "^5.0.10"
   },
   "devDependencies": {
     "husky": "^8.0.3",
