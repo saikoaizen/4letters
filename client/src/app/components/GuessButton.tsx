@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import styles from './GuessButton.module.css'
 import SecretWordInput from './SecretWordInput'
 

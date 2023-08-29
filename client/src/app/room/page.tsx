@@ -44,64 +44,72 @@ export default function RoomPage() {
     }
   }
 
-  //When the opp joins the room
-  socket.on('opp-joined-room', (oppName) => {
-    gameState.opp = oppName
-    setOpp(oppName)
-    if (playerReady) {
-      setInfo(!oppReady ? 'Waiting for ' + gameState.opp : '')
-    }
-  })
-
-  //When a opp leaves
-  socket.on('player-left', () => {
-    setOpp('')
-    gameState.opp = ''
-    gameState.isPartyLeader = true
-  })
-
-  //On entering invalid secret word
-  socket.on('invalid-secret-word', () => {
-    setSecretWord('')
-    gameState.secretWord = ''
-    setInfo('Invalid word! Please use a valid secret word.')
-    setTimeout(() => {
-      setInfo('')
-    }, 1000)
-    setColor('red')
-  })
-
-  //On secret word submission success
-  socket.on('secret-word-submission-success', (message) => {
-    setSecretWord(message)
-    gameState.secretWord = message
-    setInfo('Success!')
-    setPlayerReady(true)
-    setTimeout(() => {
-      if (!gameState.isPartyLeader) {
-        setInfo(
-          'Waiting for ' +
-            gameState.opp +
-            (oppReady ? ' to start the game' : '')
-        )
-      } else {
+  if (socket) {
+    //When the opp joins the room
+    socket.on('opp-joined-room', (oppName) => {
+      gameState.opp = oppName
+      setOpp(oppName)
+      if (playerReady) {
         setInfo(!oppReady ? 'Waiting for ' + gameState.opp : '')
       }
-      setColor('white')
-    }, 1000)
-    setColor(colors.green)
-    setInputActive(false)
-  })
+    })
 
-  //When Opp is ready
-  socket.on('opp-ready', () => {
-    if (playerReady && !gameState.isPartyLeader) {
-      setInfo('Waiting for ' + gameState.opp + ' to start the game')
-    } else {
-      setInfo('')
-    }
-    setOppReady(true)
-  })
+    //When a opp leaves
+    socket.on('player-left', () => {
+      setOpp('')
+      gameState.opp = ''
+      gameState.isPartyLeader = true
+    })
+
+    //On entering invalid secret word
+    socket.on('invalid-secret-word', () => {
+      setSecretWord('')
+      gameState.secretWord = ''
+      setInfo('Invalid word! Please use a valid secret word.')
+      setTimeout(() => {
+        setInfo('')
+      }, 1000)
+      setColor('red')
+    })
+
+    //On secret word submission success
+    socket.on('secret-word-submission-success', (message) => {
+      setSecretWord(message)
+      gameState.secretWord = message
+      setInfo('Success!')
+      setPlayerReady(true)
+      setTimeout(() => {
+        if (!gameState.isPartyLeader) {
+          setInfo(
+            'Waiting for ' +
+              gameState.opp +
+              (oppReady ? ' to start the game' : '')
+          )
+        } else {
+          setInfo(!oppReady ? 'Waiting for ' + gameState.opp : '')
+        }
+        setColor('white')
+      }, 1000)
+      setColor(colors.green)
+      setInputActive(false)
+    })
+
+    //When Opp is ready
+    socket.on('opp-ready', () => {
+      if (playerReady && !gameState.isPartyLeader) {
+        setInfo('Waiting for ' + gameState.opp + ' to start the game')
+      } else {
+        setInfo('')
+      }
+      setOppReady(true)
+    })
+
+    //Starting the game
+    socket.on('start-game-success', (turn) => {
+      gameState.turn = turn && gameState.isPartyLeader ? true : false
+      router.push('/game')
+    })
+  }
 
   //Cleanup
   useEffect(() => {
@@ -111,19 +119,16 @@ export default function RoomPage() {
       socket.off('invalid-secret-word')
       socket.off('secret-word-submission-success')
       socket.off('opp-ready')
+      socket.off('start-game-success')
     }
   }, [])
 
-  //Starting the game
-  socket.on('start-game-success', (turn) => {
-    gameState.turn = turn && gameState.isPartyLeader ? true : false
-    router.push('/game')
-  })
-
-  //Handling back event (specifically for room page)
-  window.onpopstate = (event) => {
-    socket.emit('leave-room')
-    history.pushState(event.state, document.title, location.href)
+  if (typeof window !== 'undefined') {
+    //Handling back event (specifically for room page)
+    window.onpopstate = (event) => {
+      socket.emit('leave-room')
+      history.pushState(event.state, document.title, location.href)
+    }
   }
 
   return (

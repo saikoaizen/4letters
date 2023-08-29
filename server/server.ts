@@ -280,8 +280,15 @@ io.on("connection", (socket) => {
           io.to(game.playerA?.socketID!).emit("lost-game");
           io.to(game.playerB?.socketID!).emit("win-game");
         }
+        //Removing players
+        playerRoomMap.delete(game.playerA?.socketID!);
+        playerRoomMap.delete(game.playerB?.socketID!);
+
         //Deleting the room because the game has finised (Play Again, can be added later)
         activeRooms.delete(roomCode);
+
+        //Leaving the room
+        io.socketsLeave(roomCode);
       }
     } else {
       //if the guess is invalid

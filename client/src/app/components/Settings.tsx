@@ -34,10 +34,13 @@ export default function Settings() {
     })
   }, [revealWord, selectedTime])
 
-  socket.on('settings-update', (updatedSettings) => {
-    setRevealWord(updatedSettings.revealWordOption)
-    setSelectedTime(updatedSettings.selectedTimeOption)
-  })
+  if (socket) {
+    socket.on('settings-update', (updatedSettings) => {
+      setRevealWord(updatedSettings.revealWordOption)
+      setSelectedTime(updatedSettings.selectedTimeOption)
+    })
+  }
+
   useEffect(() => {
     return () => {
       socket.off('settings-update')
