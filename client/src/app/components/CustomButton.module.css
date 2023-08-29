@@ -35,7 +35,7 @@
 @media (max-width: 550px) {
   .customButton,
   .selectedButton {
-    padding: calc(0.1rem + 0.2vw) calc(0.5rem + 0.5vw);
+    padding: calc(0.4rem + 0.2vw) calc(0.5rem + 0.5vw);
     font-size: calc(0.7rem + 0.5vw);
     white-space: nowrap;
   }

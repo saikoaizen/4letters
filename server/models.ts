@@ -3,6 +3,8 @@ type Player = {
   socketID?: string;
   secretWord?: string;
   isPartyLeader?: boolean;
+  isReady?: boolean;
+  guesses?: [string];
 };
 
 type Settings = {
@@ -15,11 +17,9 @@ export type Game = {
   playerB?: Player;
   settings?: Settings;
   roomCode?: string;
-  isPlaying?: boolean;
   timers?: [number];
   isRoomJoinable?: boolean;
   result?: boolean;
-  guesses?: [string];
-  messages?: [string];
   turn?: boolean;
+  isPlaying?: boolean;
 };

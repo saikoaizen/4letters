@@ -1,6 +1,6 @@
 'use client'
 
-import './components/primitive/Common.css'
+import './components/Common.css'
 
 export default function ErrorPage() {
   return (

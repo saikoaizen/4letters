@@ -13,6 +13,12 @@ const io = new Server(httpServer, {
 
 const PORT = process.env.PORT || 3001;
 
+//Timer Options
+const timerOptions = [30, 60, 180, 300];
+
+//Map to store all timers
+const roomTimers = new Map<string, NodeJS.Timeout>();
+
 // Generating the wordlist's hashmap from JSON for WORDS validation
 const wordMap = new Map<string, boolean>();
 const wordsData: Buffer = fs.readFileSync("data/words.json");
@@ -31,13 +37,46 @@ const playerRoomMap = new Map<string, string>();
 
 //RoomCodeGenerator
 const generateRoomCode = (): string => {
-  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+  const characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890";
   let code = "";
   for (let i = 0; i < 5; i++) {
     const randomIndex = Math.floor(Math.random() * characters.length);
     code += characters.charAt(randomIndex);
   }
+
+  //If the generated code already exists then we recursively generate it until we get a unique code
   return activeRooms.has(code) ? generateRoomCode() : code;
+};
+
+//Timer Function
+const startTimer = (roomCode: string, timerOption: number) => {
+  if (roomTimers.has(roomCode)) {
+    clearInterval(roomTimers.get(roomCode));
+  }
+
+  let timeRemaining = timerOption;
+
+  const game = activeRooms.get(roomCode)!;
+  const timer = setInterval(() => {
+    if (timeRemaining > 0) {
+      timeRemaining -= 1;
+      io.to(roomCode).emit("timer-update", timeRemaining);
+    } else {
+      //Skipping player's turn incase the time runs out
+      game.turn = !game.turn;
+
+      //Letting the players know who gets the first turn
+      io.to(roomCode).emit("turn-update", game.turn);
+      activeRooms.set(roomCode, game);
+
+      //Need this recursion incase players skip consecutively through timeouts
+      startTimer(roomCode, timerOption);
+    }
+  }, 1000);
+
+  //Storing the timer
+  roomTimers.set(roomCode, timer);
 };
 
 //Managing the connection
@@ -51,10 +90,12 @@ io.on("connection", (socket) => {
       playerA: {
         name: name,
         isPartyLeader: true,
+        isReady: false,
         socketID: socket.id,
       },
       playerB: {
         isPartyLeader: false,
+        isReady: false,
       },
       settings: {
         revealWord: false,
@@ -62,6 +103,7 @@ io.on("connection", (socket) => {
       },
       roomCode: roomCode,
       isRoomJoinable: true,
+      isPlaying: false,
       turn: Math.random() > 0.5 ? true : false,
     };
 
@@ -102,6 +144,7 @@ io.on("connection", (socket) => {
         //Letting the client know about the joined room
         socket.emit("joined-room", {
           opp: game.playerA!.name,
+          isOppReady: game.playerA!.isReady,
           settings: game.settings,
         });
 
@@ -153,12 +196,14 @@ io.on("connection", (socket) => {
         //if leader doesn't have a secretWord then we accept the submission
         if (!game.playerA.secretWord) {
           game.playerA.secretWord = secretWord;
+          game.playerA.isReady = true;
           io.to(game.playerB!.socketID!).emit("opp-ready");
         }
-      } else {
+      } else if (game.playerB?.socketID == socket.id) {
         if (game.playerB!.secretWord) return;
 
         game.playerB!.secretWord = secretWord;
+        game.playerB!.isReady = true;
         io.to(game.playerA!.socketID!).emit("opp-ready");
       }
 
@@ -169,6 +214,78 @@ io.on("connection", (socket) => {
       socket.emit("secret-word-submission-success", secretWord);
     } else {
       socket.emit("invalid-secret-word");
+    }
+  });
+
+  //When player sends a message
+  socket.on("send-message", (message) => {
+    if (playerRoomMap.has(socket.id)) {
+      const roomCode = playerRoomMap.get(socket.id)!;
+      socket.to(roomCode).emit("message-received", message);
+    }
+  });
+
+  //When player makes a guess
+  socket.on("submit-guess", (message) => {
+    const guessedWord = message.toUpperCase();
+    if (playerRoomMap.has(socket.id) && wordMap.has(guessedWord)) {
+      const roomCode = playerRoomMap.get(socket.id)!;
+      const game = activeRooms.get(roomCode)!;
+
+      const data = { text: guessedWord, result: 0 };
+      let playerSecretWord = "";
+      let result = 0;
+
+      if (game.playerA?.socketID == socket.id && game.turn) {
+        playerSecretWord = game.playerB!.secretWord!;
+      } else if (game.playerB?.socketID == socket.id && !game.turn) {
+        playerSecretWord = game.playerA!.secretWord!;
+      }
+
+      //Counting the number of matching letters
+      for (let i = 0; i < playerSecretWord.length; i++) {
+        if (guessedWord.includes(playerSecretWord[i])) {
+          result++;
+        }
+      }
+
+      //Setting the data
+      data.result = result;
+
+      //Timer Cleanup
+      clearInterval(roomTimers.get(roomCode));
+
+      //Informing the clients
+      socket.emit("valid-guess", data);
+      socket.to(roomCode).emit("guess-received", data);
+
+      //Updating game state
+      game.turn = !game.turn;
+      //Letting the players know who gets the first turn
+      io.to(roomCode).emit("turn-update", game.turn);
+
+      //We need to start the timer
+      let timeRemaining = timerOptions[game.settings!.timer!];
+      startTimer(roomCode, timeRemaining);
+
+      activeRooms.set(roomCode, game);
+
+      //Incase the player guessed it correctly, we will declare the result here
+      if (guessedWord == playerSecretWord) {
+        //Checking whose turn it is to declare the result
+        if (!game.turn) {
+          io.to(game.playerA?.socketID!).emit("win-game");
+          io.to(game.playerB?.socketID!).emit("lost-game");
+        } else {
+          io.to(game.playerA?.socketID!).emit("lost-game");
+          io.to(game.playerB?.socketID!).emit("win-game");
+        }
+        //Deleting the room because the game has finised (Play Again, can be added later)
+        activeRooms.delete(roomCode);
+      }
+    } else {
+      //if the guess is invalid
+      socket.emit("invalid-guess");
     }
   });
 
@@ -184,7 +301,14 @@ io.on("connection", (socket) => {
         game.playerA?.socketID == socket.id &&
         !game.isPlaying
       ) {
-        io.to(roomCode).emit("start-game-success");
+        game.isPlaying = true;
+
+        //We need to start the timer
+        let timeRemaining = timerOptions[game.settings!.timer!];
+        startTimer(roomCode, timeRemaining);
+
+        activeRooms.set(roomCode, game);
+        io.to(roomCode).emit("start-game-success", game.turn);
       }
     }
   });

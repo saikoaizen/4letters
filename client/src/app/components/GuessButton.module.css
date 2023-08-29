@@ -1,0 +1,113 @@
+@keyframes anim {
+  0% {
+    box-shadow: 0rem 0rem 0rem 0rem rgba(0, 204, 255, 0);
+  }
+  50% {
+    box-shadow: 0rem -0.5rem 1rem 0rem rgb(0, 255, 38);
+  }
+  100% {
+    box-shadow: 0rem 0rem 0rem 0.5rem rgba(0, 204, 255, 0);
+  }
+}
+
+.container {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 1rem;
+  flex-direction: row;
+  width: 100%;
+}
+
+.pushable,
+.front {
+  display: block;
+  max-width: fit-content;
+}
+
+.pushable {
+  background: hsla(130, 100%, 17%, 0.671);
+  border-radius: 1.5rem;
+  box-shadow: inset 0.2rem 0.1rem 1rem 0.5rem rgba(0, 0, 0, 0.4);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  animation-name: anim;
+  animation-iteration-count: infinite;
+  animation-duration: 1s;
+  outline-offset: 0.5rem;
+  transition:
+    transform 0.1s,
+    box-shadow 0.1s;
+}
+
+.front {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 1.5rem;
+  font-size: 1.5rem;
+  font-family: 'Zilla Slab';
+  font-weight: 900;
+  box-shadow: inset 0.2rem 0.1rem 1rem 0.5rem rgba(0, 0, 0, 0.4);
+  background: hsl(153, 100%, 47%);
+  color: rgba(255, 255, 255, 0.95);
+  transform: translateY(-0.5rem);
+  transition:
+    transform 0.15s,
+    box-shadow 0.2s;
+}
+
+.pushable:active .front {
+  background: rgb(0, 255, 110);
+  transform: translateY(-0.1rem);
+}
+
+.pushable:active {
+  animation-name: none;
+  box-shadow: 0rem 0rem 0.5rem 0.2rem rgba(0, 255, 47, 0.4);
+}
+
+.pushable:hover {
+  transform: scale(1.03);
+}
+
+.front:hover {
+  animation-play-state: paused;
+}
+
+.pushableOff {
+  background: hsla(0, 0%, 23%, 0.671);
+  border-radius: 1.5rem;
+  box-shadow: inset 0.2rem 0.1rem 1rem 0.5rem rgba(0, 0, 0, 0.4);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  outline-offset: 0.5rem;
+  transition:
+    transform 0.1s,
+    box-shadow 0.1s;
+}
+
+.frontOff {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 1.5rem;
+  font-size: 1.5rem;
+  font-family: 'Zilla Slab';
+  font-weight: 900;
+  box-shadow: inset 0.2rem 0.1rem 1rem 0.5rem rgba(0, 0, 0, 0.4);
+  background: hsl(0, 0%, 52%);
+  color: rgba(255, 255, 255, 0.95);
+  transform: translateY(-0.5rem);
+  transition:
+    transform 0.15s,
+    box-shadow 0.2s;
+}
+
+@media (max-width: 768px) {
+  .front,
+  .frontOff {
+    font-size: 1rem;
+    padding: 0.2rem 0.4rem;
+  }
+}

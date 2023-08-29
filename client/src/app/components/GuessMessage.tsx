@@ -3,21 +3,21 @@ import styles from './GuessMessage.module.css'
 interface Props {
   guessWord: string
   result: number
-  alignment: number
+  alignment: boolean
 }
 
 export default function GuessMessage({ guessWord, result, alignment }: Props) {
   return (
     <>
-      {alignment === 0 ? (
+      {alignment ? (
         <div className={styles.rightChild}>
-          <text className={styles.resultText}>{result}</text>
-          <text className={styles.rightText}>{guessWord} </text>
+          <span className={styles.resultText}>{result}</span>
+          <span className={styles.rightText}>{guessWord} </span>
         </div>
       ) : (
         <div className={styles.leftChild}>
-          <text className={styles.leftText}>{guessWord} </text>
-          <text className={styles.resultText}>{result}</text>
+          <span className={styles.leftText}>{guessWord} </span>
+          <span className={styles.resultText}>{result}</span>
         </div>
       )}
     </>

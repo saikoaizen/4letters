@@ -1,10 +1,10 @@
 'use client'
 
 import Title from '../components/Title'
-import '../components/primitive/Common.css'
+import '../components/Common.css'
 import colors from '../util/colors'
-import CustomButton from '../components/primitive/CustomButton'
-import CustomInput from '../components/primitive/CustomInput'
+import CustomButton from '../components/CustomButton'
+import CustomInput from '../components/CustomInput'
 import { GameState } from '../util/GameState'
 import useSocket from '../util/useSocket'
 import { useRouter, useSearchParams } from 'next/navigation'
@@ -34,6 +34,7 @@ export default function JoinPage() {
       socket.on('joined-room', (data) => {
         gameState.opp = data['opp']
         gameState.settings = data['settings']
+        gameState.isOppReady = data['isOppReady']
         router.push('/room')
       })
 
@@ -48,7 +49,7 @@ export default function JoinPage() {
   }
 
   return (
-    <div className="pageWrapper">
+    <div className="menuPageWrapper">
       <Title />
       <div className="menuBox">
         <div className="wrapper">

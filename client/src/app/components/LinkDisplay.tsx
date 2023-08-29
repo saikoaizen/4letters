@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import CustomInput from './primitive/CustomInput'
+import CustomInput from './CustomInput'
 import Image from 'next/image'
 import CopyLinkIcon from '../../../public/CopyLinkIcon.svg'
 import styles from './LinkDisplay.module.css'

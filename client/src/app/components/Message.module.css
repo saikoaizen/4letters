@@ -19,7 +19,9 @@
   position: relative;
   display: flex;
   max-width: 80%;
+  height: fit-content;
   width: fit-content;
+  word-wrap: anywhere;
   padding: 0.5rem;
   border-radius: 1rem;
   color: black;
@@ -41,7 +43,7 @@
 @media screen and (max-width: 468px) {
   .messageRight,
   .messageLeft {
-    font-size: 0.5rem;
+    font-size: 0.6rem;
   }
 
   .message {

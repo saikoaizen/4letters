@@ -5,14 +5,14 @@ import colors from '../util/colors'
 import PlayerDisplay from '../components/PlayerDisplay'
 import SecretIcon from '../../../public/SecretIcon.svg'
 import Title from '../components/Title'
-import '../components/primitive/Common.css'
-import CustomButton from '../components/primitive/CustomButton'
+import '../components/Common.css'
+import CustomButton from '../components/CustomButton'
 import LinkDisplay from '../components/LinkDisplay'
 import Settings from '../components/Settings'
 import { GameState } from '../util/GameState'
 import useSocket from '../util/useSocket'
-import { useState } from 'react'
-import SecretWordInput from '../components/primitive/SecretWordInput'
+import { useEffect, useState } from 'react'
+import SecretWordInput from '../components/SecretWordInput'
 import { useRouter } from 'next/navigation'
 
 export default function RoomPage() {
@@ -25,7 +25,7 @@ export default function RoomPage() {
   const [info, setInfo] = useState('')
   const [color, setColor] = useState('red')
   const [inputActive, setInputActive] = useState(true)
-  const [oppReady, setOppReady] = useState(false)
+  const [oppReady, setOppReady] = useState(gameState.isOppReady)
   const [playerReady, setPlayerReady] = useState(false)
 
   const handleSecretWordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,26 +33,34 @@ export default function RoomPage() {
   }
 
   const startGameHandle = () => {
-    if (!gameState.secretWord && secretWord.length == 4) {
+    //Checking whether the secret word submission is done or not
+    if (!playerReady && secretWord.length == 4) {
       socket.emit('secret-word-submission', { secretWord })
     }
 
-    if (gameState.secretWord) {
+    //Starting the game if everyone's ready
+    if (playerReady && oppReady) {
       socket.emit('start-game')
     }
   }
 
+  //When the opp joins the room
   socket.on('opp-joined-room', (oppName) => {
     gameState.opp = oppName
     setOpp(oppName)
+    if (playerReady) {
+      setInfo(!oppReady ? 'Waiting for ' + gameState.opp : '')
+    }
   })
 
+  //When a opp leaves
   socket.on('player-left', () => {
     setOpp('')
     gameState.opp = ''
     gameState.isPartyLeader = true
   })
 
+  //On entering invalid secret word
   socket.on('invalid-secret-word', () => {
     setSecretWord('')
     gameState.secretWord = ''
@@ -63,6 +71,7 @@ export default function RoomPage() {
     setColor('red')
   })
 
+  //On secret word submission success
   socket.on('secret-word-submission-success', (message) => {
     setSecretWord(message)
     gameState.secretWord = message
@@ -84,20 +93,37 @@ export default function RoomPage() {
     setInputActive(false)
   })
 
+  //When Opp is ready
   socket.on('opp-ready', () => {
-    setInfo('')
+    if (playerReady && !gameState.isPartyLeader) {
+      setInfo('Waiting for ' + gameState.opp + ' to start the game')
+    } else {
+      setInfo('')
+    }
     setOppReady(true)
   })
 
+  //Cleanup
+  useEffect(() => {
+    return () => {
+      socket.off('opp-joined-room')
+      socket.off('player-left')
+      socket.off('invalid-secret-word')
+      socket.off('secret-word-submission-success')
+      socket.off('opp-ready')
+    }
+  }, [])
+
   //Starting the game
-  socket.on('start-game-success', () => {
-    console.log('STARTING GAME!')
+  socket.on('start-game-success', (turn) => {
+    gameState.turn = turn && gameState.isPartyLeader ? true : false
     router.push('/game')
   })
 
   //Handling back event (specifically for room page)
-  window.onpopstate = () => {
+  window.onpopstate = (event) => {
     socket.emit('leave-room')
+    history.pushState(event.state, document.title, location.href)
   }
 
   return (
@@ -129,13 +155,8 @@ export default function RoomPage() {
       <div className="wrapperHorizontal">
         <Image src={SecretIcon} alt="SecretIcon" width={30} height={30} />
         <SecretWordInput
-          placeHolder="SECRET WORD?"
+          placeholder="SECRET WORD?"
           maxLength={4}
-          customStyle={{
-            textTransform: 'uppercase',
-            maxWidth: 'fit-content',
-            background: colors.black,
-          }}
           value={secretWord}
           onChange={handleSecretWordChange}
           interactable={inputActive}
@@ -145,7 +166,13 @@ export default function RoomPage() {
       {(!gameState.secretWord || gameState.isPartyLeader) && (
         <CustomButton
           color={colors.green}
-          text={gameState.isPartyLeader ? 'Start Game' : 'Ready!'}
+          text={
+            gameState.isPartyLeader
+              ? playerReady
+                ? 'Start Game'
+                : 'Submit'
+              : 'Ready!'
+          }
           onClick={startGameHandle}
         />
       )}

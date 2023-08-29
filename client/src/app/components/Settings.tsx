@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import CustomButton from './primitive/CustomButton'
+import CustomButton from './CustomButton'
 import useSocket from '../util/useSocket'
 import { GameState } from '../util/GameState'
 

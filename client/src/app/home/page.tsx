@@ -2,16 +2,16 @@
 
 import Title from '../components/Title'
 import colors from '../util/colors'
-import '../components/primitive/Common.css'
-import CustomButton from '../components/primitive/CustomButton'
-import CustomInput from '../components/primitive/CustomInput'
+import '../components/Common.css'
+import CustomButton from '../components/CustomButton'
+import CustomInput from '../components/CustomInput'
 import useSocket from '../util/useSocket'
 import { useState } from 'react'
 import { GameState } from '../util/GameState'
 import { useRouter } from 'next/navigation'
 
 export default function HomePage() {
-  const gameState = GameState.getInstance()
+  const gameState = GameState.getInitial()
   const router = useRouter()
   const socket = useSocket()
 
@@ -21,6 +21,7 @@ export default function HomePage() {
     setName(e.target.value)
   }
 
+  // MATCHMAKING OR AGAINST A BOT
   // const handleStartGame = () => {
   //   if (socket && name) {
   //     gameState.name = name
@@ -46,7 +47,7 @@ export default function HomePage() {
   }
 
   return (
-    <div className="pageWrapper">
+    <div className="menuPageWrapper">
       <Title />
       <div className="menuBox">
         <CustomInput

@@ -1,8 +1,8 @@
 .customInput {
   display: inline;
   color: white;
-  font-family: 'Zilla Slab', sans-serif;
-  font-size: 1rem;
+  font-family: 'Zilla Slab';
+  font-size: calc(1svh + 1rem);
   width: 100%;
   border-radius: 1.25rem;
   border: 1px solid rgba(153, 153, 153, 0.44);
@@ -17,13 +17,12 @@
 }
 
 .customInput::placeholder {
+  font-size: large;
   color: #999;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
   .customInput {
-    font-size: 0.9rem;
     padding: 0.4rem 0.8rem;
   }
 }
