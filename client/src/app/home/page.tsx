@@ -56,6 +56,7 @@ export default function HomePage() {
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             handleNameChange(e)
           }
+          onSubmit={handleCreateNewRoom}
         />
         <div className="wrapper">
           {

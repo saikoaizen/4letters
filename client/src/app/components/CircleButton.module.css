@@ -1,10 +1,9 @@
 .circleButton {
   display: flex;
-  align-items: center;
   justify-content: center;
-  text-align: center;
+  align-items: center;
   aspect-ratio: 1;
-  padding: 1.5svh;
+  width: 2rem;
   border-radius: 100%;
   border: 3px solid rgba(255, 255, 255, 0);
   color: #fff;

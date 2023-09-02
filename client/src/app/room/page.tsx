@@ -165,6 +165,7 @@ export default function RoomPage() {
           value={secretWord}
           onChange={handleSecretWordChange}
           interactable={inputActive}
+          onSubmit={startGameHandle}
         />
       </div>
       {info && <p style={{ color: color }}>{info}</p>}

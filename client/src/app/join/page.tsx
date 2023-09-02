@@ -60,6 +60,7 @@ export default function JoinPage() {
             onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
               handleNameChange(e)
             }
+            onSubmit={handleJoinRoom}
           />
           <CustomButton
             color={colors.green}

@@ -1,4 +1,4 @@
-import styles from './GuessButton.module.css'
+import styles from './GuessComponent.module.css'
 import SecretWordInput from './SecretWordInput'
 
 type Props = {
@@ -8,7 +8,7 @@ type Props = {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-export default function GuessButton({
+export default function GuessComponent({
   active,
   value,
   onClick,
@@ -29,6 +29,7 @@ export default function GuessButton({
         gameMode={true}
         onChange={onChange}
         interactable={true}
+        onSubmit={onClick}
       />
     </div>
   )

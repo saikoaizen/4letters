@@ -32,7 +32,7 @@ export default function Settings() {
       revealWordOption: revealWord,
       selectedTimeOption: selectedTime,
     })
-  }, [revealWord, selectedTime])
+  }, [socket, revealWord, selectedTime])
 
   if (socket) {
     socket.on('settings-update', (updatedSettings) => {
@@ -45,7 +45,7 @@ export default function Settings() {
     return () => {
       socket.off('settings-update')
     }
-  }, [])
+  }, [socket])
 
   return (
     <div className="menuBox">

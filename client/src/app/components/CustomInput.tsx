@@ -10,6 +10,7 @@ interface Props {
   interactable?: boolean
   initialValue?: string
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
+  onSubmit?: () => void
 }
 
 export default function CustomInput({
@@ -19,8 +20,15 @@ export default function CustomInput({
   interactable = true,
   initialValue = '',
   onChange = () => {},
+  onSubmit = () => {},
 }: Props) {
   const [inputValue, setInputValue] = useState(initialValue)
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key == 'Enter') {
+      onSubmit()
+    }
+  }
 
   return (
     <input
@@ -34,6 +42,7 @@ export default function CustomInput({
         setInputValue(e.target.value)
         onChange(e)
       }}
+      onKeyDown={handleKeyPress}
     />
   )
 }

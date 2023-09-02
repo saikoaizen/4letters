@@ -9,6 +9,7 @@ interface Props {
   customStyle?: object
   value?: string
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
+  onSubmit?: () => void
 }
 
 export default function MessageInput({
@@ -17,11 +18,18 @@ export default function MessageInput({
   customStyle = {},
   value = '',
   onChange = () => {},
+  onSubmit = () => {},
 }: Props) {
   const [inputValue, setInputValue] = useState(value)
   useEffect(() => {
     setInputValue(value)
   }, [value])
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key == 'Enter') {
+      onSubmit()
+    }
+  }
 
   return (
     <input
@@ -34,6 +42,7 @@ export default function MessageInput({
         setInputValue(e.target.value)
         onChange(e)
       }}
+      onKeyDown={handleKeyPress}
     />
   )
 }

@@ -4,7 +4,7 @@ import CircleButton from '../components/CircleButton'
 import colors from '../util/colors'
 import '../components/Common.css'
 import Title from '../components/Title'
-import GuessButton from '../components/GuessButton'
+import GuessComponent from '../components/GuessComponent'
 import GuessMessage from '../components/GuessMessage'
 import Message from '../components/Message'
 import Timer from '../components/Timer'
@@ -158,7 +158,7 @@ export default function GamePage() {
       socket.off('win-game')
       socket.off('lost-game')
     }
-  })
+  }, [socket, gameState, router, setServerToLocalTurn, turn])
 
   useEffect(() => {
     messagesBottomRef.current!.scrollIntoView({ behavior: 'smooth' })
@@ -192,7 +192,7 @@ export default function GamePage() {
             </div>
           </div>
           <div className="bottomHorizontalGuessBox">
-            <GuessButton
+            <GuessComponent
               active={turn}
               value={guessInput}
               onClick={handleSendGuess}
@@ -221,11 +221,11 @@ export default function GamePage() {
               maxLength={100}
               value={messageInput}
               onChange={handleMessageInputChange}
+              onSubmit={handleSendMessage}
             />
             <CircleButton
               color={colors.blue}
               text=">"
-              size={17}
               onClick={handleSendMessage}
             />
           </div>

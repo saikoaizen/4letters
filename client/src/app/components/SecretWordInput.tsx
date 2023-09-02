@@ -11,6 +11,7 @@ interface Props {
   initialValue?: string
   value?: string
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
+  onSubmit?: () => void
 }
 
 export default function SecretWordInput({
@@ -21,8 +22,15 @@ export default function SecretWordInput({
   gameMode = false,
   value = '',
   onChange = () => {},
+  onSubmit = () => {},
 }: Props) {
   const [inputValue, setInputValue] = useState(initialValue)
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key == 'Enter') {
+      onSubmit()
+    }
+  }
 
   return (
     <input
@@ -35,6 +43,7 @@ export default function SecretWordInput({
         setInputValue(e.target.value)
         onChange(e)
       }}
+      onKeyDown={handleKeyPress}
     />
   )
 }
