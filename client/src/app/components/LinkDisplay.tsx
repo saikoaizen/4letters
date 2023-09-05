@@ -10,7 +10,7 @@ import colors from '../util/colors'
 export default function LinkDisplay({ link }: { link: string }) {
   const [copied, setCopied] = useState(false)
 
-  const url = 'http://localhost:3000/join?roomCode='
+  const url = 'http://4letters.vercel.app/join?roomCode='
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(url + link).then(() => {
