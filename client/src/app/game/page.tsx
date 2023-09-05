@@ -1,18 +1,15 @@
 'use client'
 
-import CircleButton from '../components/CircleButton'
-import colors from '../util/colors'
 import '../components/Common.css'
 import Title from '../components/Title'
 import GuessComponent from '../components/GuessComponent'
 import GuessMessage from '../components/GuessMessage'
-import Message from '../components/Message'
 import Timer from '../components/Timer'
 import { useEffect, useRef, useState } from 'react'
-import { GameState, MessageType, GuessType } from '../util/GameState'
+import { GameState, GuessType } from '../util/GameState'
 import useSocket from '../util/useSocket'
-import MessageInput from '../components/MessageInput'
 import { useRouter } from 'next/navigation'
+import MessagingComponent from '../components/MessagingComponent'
 
 export default function GamePage() {
   const socket = useSocket()
@@ -21,46 +18,17 @@ export default function GamePage() {
 
   const [playerTimerValue, setPlayerTimerValue] = useState(0)
   const [oppTimerValue, setOppTimerValue] = useState(0)
-  const [messageInput, setMessageInput] = useState('')
   const [guessInput, setGuessInput] = useState('')
   const [guessesList, setGuessesList] = useState<GuessType[]>(gameState.guesses)
-  const [messagesList, setMessagesList] = useState<MessageType[]>(
-    gameState.messages
-  )
 
   //Used to scroll the messages and guesses to the bottom when they update
   const guessesBottomRef = useRef<null | HTMLDivElement>(null)
-  const messagesBottomRef = useRef<null | HTMLDivElement>(null)
 
   //serverTurn=true will always mean that it's the 1st player's turn (PartyLeader)
   //serverTurn=false will always mean that it's the 2nd player's turn (not PartyLeader)
   //NOTE: Server will only return a single boolean value for turn-
   //      which is then used to figure out which player's turn it is using the method below
-  const [turn, setTurn] = useState<boolean>(
-    !gameState.turn == !gameState.isPartyLeader ? true : false
-  )
-
-  //Converting server turn update to local turn value
-  //Since the server just gives a boolean value, we have to figure out the turn value using this method
-  const setServerToLocalTurn = (value: boolean) => {
-    if (value == gameState.isPartyLeader) {
-      setTurn(true)
-    } else {
-      setTurn(false)
-    }
-  }
-
-  //Send Message Handler
-  const handleSendMessage = () => {
-    if (messageInput) {
-      socket.emit('send-message', messageInput)
-      setMessagesList((prevMessages) => [
-        ...prevMessages,
-        { sender: true, text: messageInput },
-      ])
-      setMessageInput('')
-    }
-  }
+  const [turn, setTurn] = useState<boolean>(gameState.turn)
 
   //Guess submition handler
   const handleSendGuess = () => {
@@ -70,24 +38,21 @@ export default function GamePage() {
     }
   }
 
-  //Message change handler
-  const handleMessageInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMessageInput(e.target.value)
-  }
-
   //Guess input change handler
   const handleGuessInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setGuessInput(e.target.value)
   }
 
   useEffect(() => {
-    //Updating messagesList on receiving new message entry
-    socket.on('message-received', (message) => {
-      setMessagesList((prevMessages) => [
-        ...prevMessages,
-        { sender: false, text: message },
-      ])
-    })
+    //Converting server turn update to local turn value
+    //Since the server just gives a boolean value, we have to figure out the turn value using this method
+    const setServerToLocalTurn = (value: boolean) => {
+      if (value == gameState.isPartyLeader) {
+        setTurn(true)
+      } else {
+        setTurn(false)
+      }
+    }
 
     //Updating guessesList on receiving new guess entry
     socket.on('guess-received', (data) => {
@@ -134,21 +99,63 @@ export default function GamePage() {
     })
 
     //On winning the game
-    socket.on('win-game', () => {
-      console.log('WON!')
+    socket.on('win-game', (data) => {
+      //Setting the result and stats
       gameState.result = true
+      gameState.stats = [data.timeTakenA + data.timeTakenB]
+
+      //Because we use order of the stats to display them
+      if (gameState.isPartyLeader) {
+        gameState.stats.push(data.timeTakenA)
+        gameState.stats.push(data.timeTakenB)
+        gameState.stats.push(data.guessCountA)
+        gameState.stats.push(data.guessCountB)
+        if (data.revealWord) {
+          gameState.oppSecretWord = data.secretWordB
+        }
+      } else {
+        gameState.stats.push(data.timeTakenB)
+        gameState.stats.push(data.timeTakenA)
+        gameState.stats.push(data.guessCountB)
+        gameState.stats.push(data.guessCountA)
+        if (data.revealWord) {
+          gameState.oppSecretWord = data.secretWordA
+        }
+      }
+
+      //Loading result page
       router.push('/result')
     })
 
     //On losing the game
-    socket.on('lost-game', () => {
-      console.log('LOST!')
+    socket.on('lost-game', (data) => {
+      //Setting the result and stats
       gameState.result = false
+      gameState.stats = [data.timeTakenA + data.timeTakenB]
+
+      //Because we use order of the stats to display them
+      if (gameState.isPartyLeader) {
+        gameState.stats.push(data.timeTakenA)
+        gameState.stats.push(data.timeTakenB)
+        gameState.stats.push(data.guessCountA)
+        gameState.stats.push(data.guessCountB)
+        if (data.revealWord) {
+          gameState.oppSecretWord = data.secretWordB
+        }
+      } else {
+        gameState.stats.push(data.timeTakenB)
+        gameState.stats.push(data.timeTakenA)
+        gameState.stats.push(data.guessCountB)
+        gameState.stats.push(data.guessCountA)
+        if (data.revealWord) {
+          gameState.oppSecretWord = data.secretWordA
+        }
+      }
+
       router.push('/result')
     })
 
     return () => {
-      socket.off('message-received')
       socket.off('guess-received')
       socket.off('valid-guess')
       socket.off('invalid-guess')
@@ -158,11 +165,7 @@ export default function GamePage() {
       socket.off('win-game')
       socket.off('lost-game')
     }
-  }, [socket, gameState, router, setServerToLocalTurn, turn])
-
-  useEffect(() => {
-    messagesBottomRef.current!.scrollIntoView({ behavior: 'smooth' })
-  }, [messagesList])
+  }, [socket, gameState, router, turn])
 
   useEffect(() => {
     guessesBottomRef.current!.scrollIntoView({ behavior: 'smooth' })
@@ -205,31 +208,7 @@ export default function GamePage() {
             />
           </div>
         </div>
-        <div className="chatBox">
-          <div className="messagesBox">
-            {messagesList.map((message, index) => (
-              <Message
-                key={index}
-                text={message.text}
-                alignment={message.sender}
-              />
-            ))}
-            <div ref={messagesBottomRef} />
-          </div>
-          <div className="wrapperHorizontal">
-            <MessageInput
-              maxLength={100}
-              value={messageInput}
-              onChange={handleMessageInputChange}
-              onSubmit={handleSendMessage}
-            />
-            <CircleButton
-              color={colors.blue}
-              text=">"
-              onClick={handleSendMessage}
-            />
-          </div>
-        </div>
+        <MessagingComponent />
       </div>
     </div>
   )

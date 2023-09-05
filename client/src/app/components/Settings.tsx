@@ -36,6 +36,8 @@ export default function Settings() {
 
   if (socket) {
     socket.on('settings-update', (updatedSettings) => {
+      gameState.settings.revealWord = updatedSettings.revealWordOption
+      gameState.settings.timer = updatedSettings.selectedTimerOption
       setRevealWord(updatedSettings.revealWordOption)
       setSelectedTime(updatedSettings.selectedTimeOption)
     })

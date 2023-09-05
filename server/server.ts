@@ -1,6 +1,6 @@
 import { createServer } from "http";
 import { Server } from "socket.io";
-import { Game } from "./models";
+import { Game, GameStats } from "./models";
 import * as fs from "fs";
 
 const httpServer = createServer();
@@ -19,6 +19,15 @@ const timerOptions = [30, 60, 180, 300];
 //Map to store all timers
 const roomTimers = new Map<string, NodeJS.Timeout>();
 
+//Map to store the time taken
+const roomTimeTaken = new Map<string, number>();
+
+//Map to store all the concurrent games
+const activeRooms = new Map<string, Game>();
+
+//Map to store player:room data for ease of search
+const playerRoomMap = new Map<string, string>();
+
 // Generating the wordlist's hashmap from JSON for WORDS validation
 const wordMap = new Map<string, boolean>();
 const wordsData: Buffer = fs.readFileSync("data/words.json");
@@ -28,12 +37,6 @@ for (const word in words) {
     wordMap.set(word.toUpperCase(), true);
   }
 }
-
-//Map to store all the concurrent games
-const activeRooms = new Map<string, Game>();
-
-//Map to store player:room data for ease of search
-const playerRoomMap = new Map<string, string>();
 
 //RoomCodeGenerator
 const generateRoomCode = (): string => {
@@ -55,18 +58,31 @@ const startTimer = (roomCode: string, timerOption: number) => {
     clearInterval(roomTimers.get(roomCode));
   }
 
+  //To keep track of the time taken
+  if (!roomTimeTaken.has(roomCode)) {
+    roomTimeTaken.set(roomCode, 0);
+  }
+
   let timeRemaining = timerOption;
 
   const game = activeRooms.get(roomCode)!;
   const timer = setInterval(() => {
     if (timeRemaining > 0) {
       timeRemaining -= 1;
+      roomTimeTaken.set(roomCode, timerOption - timeRemaining);
       io.to(roomCode).emit("timer-update", timeRemaining);
     } else {
+      //Incrementing total time taken for players (this is a statistic)
+      if (game.turn) {
+        game.playerA!.timeTaken! += timerOption;
+      } else {
+        game.playerB!.timeTaken! += timerOption;
+      }
+
       //Skipping player's turn incase the time runs out
       game.turn = !game.turn;
 
-      //Letting the players know who gets the first turn
+      //Turn Update
       io.to(roomCode).emit("turn-update", game.turn);
       activeRooms.set(roomCode, game);
 
@@ -92,14 +108,18 @@ io.on("connection", (socket) => {
         isPartyLeader: true,
         isReady: false,
         socketID: socket.id,
+        guessCount: 0,
+        timeTaken: 0,
       },
       playerB: {
         isPartyLeader: false,
         isReady: false,
+        guessCount: 0,
+        timeTaken: 0,
       },
       settings: {
         revealWord: false,
-        timer: 0.5,
+        timer: 0,
       },
       roomCode: roomCode,
       isRoomJoinable: true,
@@ -259,9 +279,19 @@ io.on("connection", (socket) => {
       socket.emit("valid-guess", data);
       socket.to(roomCode).emit("guess-received", data);
 
+      //Incrementing total time taken for players (this is a statistic)
+      if (game.turn) {
+        game.playerA!.timeTaken! += roomTimeTaken.get(roomCode)!;
+        game.playerA!.guessCount! += 1;
+      } else {
+        game.playerB!.timeTaken! += roomTimeTaken.get(roomCode)!;
+        game.playerB!.guessCount! += 1;
+      }
+
       //Updating game state
       game.turn = !game.turn;
-      //Letting the players know who gets the first turn
+
+      //Turn update
       io.to(roomCode).emit("turn-update", game.turn);
 
       //We need to start the timer
@@ -272,17 +302,39 @@ io.on("connection", (socket) => {
 
       //Incase the player guessed it correctly, we will declare the result here
       if (guessedWord == playerSecretWord) {
+        //Data to send for game stats
+        const data: GameStats = {
+          revealWord: game.settings?.revealWord,
+          timeTakenA: game.playerA?.timeTaken,
+          guessCountA: game.playerA?.guessCount,
+          timeTakenB: game.playerB?.timeTaken,
+          guessCountB: game.playerB?.guessCount,
+          secretWordA: "",
+          secretWordB: "",
+        };
+
+        //If secret word reveal is on
+        if (game.settings?.revealWord) {
+          data.secretWordA = game.playerA?.secretWord;
+          data.secretWordB = game.playerB?.secretWord;
+        }
+
         //Checking whose turn it is to declare the result
         if (!game.turn) {
-          io.to(game.playerA?.socketID!).emit("win-game");
-          io.to(game.playerB?.socketID!).emit("lost-game");
+          io.to(game.playerA?.socketID!).emit("win-game", data);
+          io.to(game.playerB?.socketID!).emit("lost-game", data);
         } else {
-          io.to(game.playerA?.socketID!).emit("lost-game");
-          io.to(game.playerB?.socketID!).emit("win-game");
+          io.to(game.playerA?.socketID!).emit("lost-game", data);
+          io.to(game.playerB?.socketID!).emit("win-game", data);
         }
+
         //Removing players
         playerRoomMap.delete(game.playerA?.socketID!);
         playerRoomMap.delete(game.playerB?.socketID!);
+
+        //Cleaning up timers
+        roomTimers.delete(roomCode);
+        roomTimeTaken.delete(roomCode);
 
         //Deleting the room because the game has finised (Play Again, can be added later)
         activeRooms.delete(roomCode);

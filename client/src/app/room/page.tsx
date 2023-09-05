@@ -14,6 +14,7 @@ import useSocket from '../util/useSocket'
 import { useEffect, useState } from 'react'
 import SecretWordInput from '../components/SecretWordInput'
 import { useRouter } from 'next/navigation'
+import MessagingComponent from '../components/MessagingComponent'
 
 export default function RoomPage() {
   const gameState = GameState.getInstance()
@@ -106,7 +107,7 @@ export default function RoomPage() {
 
     //Starting the game
     socket.on('start-game-success', (turn) => {
-      gameState.turn = turn && gameState.isPartyLeader ? true : false
+      gameState.turn = turn == gameState.isPartyLeader ? true : false
       router.push('/game')
     })
   }
@@ -121,7 +122,7 @@ export default function RoomPage() {
       socket.off('opp-ready')
       socket.off('start-game-success')
     }
-  }, [])
+  }, [socket])
 
   if (typeof window !== 'undefined') {
     //Handling back event (specifically for room page)
@@ -132,56 +133,61 @@ export default function RoomPage() {
   }
 
   return (
-    <div className="pageWrapper">
-      <Title />
-      {gameState.isPartyLeader && !opp && (
-        <LinkDisplay link={gameState.roomCode} />
-      )}
-      <div className="menuBox">
-        <p className="simpleText">Players Active:</p>
-        <div className="wrapper">
-          {gameState.name && (
-            <PlayerDisplay
-              name={gameState.name}
-              isPartyLeader={gameState.isPartyLeader}
-              ready={playerReady}
-            />
+    <div style={{ display: 'flex', width: '100%', justifyContent: 'center' }}>
+      <div className="roomWrapper">
+        <div className="pageWrapper">
+          <Title />
+          {gameState.isPartyLeader && !opp && (
+            <LinkDisplay link={gameState.roomCode} />
           )}
-          {opp && (
-            <PlayerDisplay
-              name={opp}
-              isPartyLeader={!gameState.isPartyLeader}
-              ready={oppReady}
+          <div className="menuBox">
+            <p className="simpleText">Players Active:</p>
+            <div className="wrapper">
+              {gameState.name && (
+                <PlayerDisplay
+                  name={gameState.name}
+                  isPartyLeader={gameState.isPartyLeader}
+                  ready={playerReady}
+                />
+              )}
+              {opp && (
+                <PlayerDisplay
+                  name={opp}
+                  isPartyLeader={!gameState.isPartyLeader}
+                  ready={oppReady}
+                />
+              )}
+            </div>
+          </div>
+          <Settings />
+          <div className="wrapperHorizontal">
+            <Image src={SecretIcon} alt="SecretIcon" width={30} height={30} />
+            <SecretWordInput
+              placeholder="SECRET WORD?"
+              maxLength={4}
+              value={secretWord}
+              onChange={handleSecretWordChange}
+              interactable={inputActive}
+              onSubmit={startGameHandle}
+            />
+          </div>
+          {info && <p style={{ color: color }}>{info}</p>}
+          {(!gameState.secretWord || gameState.isPartyLeader) && (
+            <CustomButton
+              color={colors.green}
+              text={
+                gameState.isPartyLeader
+                  ? playerReady
+                    ? 'Start Game'
+                    : 'Submit'
+                  : 'Ready!'
+              }
+              onClick={startGameHandle}
             />
           )}
         </div>
+        <MessagingComponent />
       </div>
-      <Settings />
-      <div className="wrapperHorizontal">
-        <Image src={SecretIcon} alt="SecretIcon" width={30} height={30} />
-        <SecretWordInput
-          placeholder="SECRET WORD?"
-          maxLength={4}
-          value={secretWord}
-          onChange={handleSecretWordChange}
-          interactable={inputActive}
-          onSubmit={startGameHandle}
-        />
-      </div>
-      {info && <p style={{ color: color }}>{info}</p>}
-      {(!gameState.secretWord || gameState.isPartyLeader) && (
-        <CustomButton
-          color={colors.green}
-          text={
-            gameState.isPartyLeader
-              ? playerReady
-                ? 'Start Game'
-                : 'Submit'
-              : 'Ready!'
-          }
-          onClick={startGameHandle}
-        />
-      )}
     </div>
   )
 }

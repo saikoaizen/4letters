@@ -15,6 +15,7 @@ export class GameState {
   public opp: string
   public roomCode: string
   public secretWord: string
+  public oppSecretWord: string
   public isPartyLeader: boolean
   public isOppReady: boolean
   public settings: {
@@ -25,19 +26,22 @@ export class GameState {
   public messages: MessageType[]
   public guesses: GuessType[]
   public result: boolean
+  public stats: number[]
 
   private constructor(
     name?: string,
     opp?: string,
     roomCode?: string,
     secretWord?: string,
+    oppSecretWord?: string,
     isPartyLeader?: boolean,
     isOppReady?: boolean,
     settings?: { revealWord: false; timer: 0 },
     turn?: boolean,
     messages?: [],
     guesses?: [],
-    result?: boolean
+    result?: boolean,
+    stats?: number[]
   ) {
     this.name = name || ''
     this.opp = opp || ''
@@ -50,6 +54,8 @@ export class GameState {
     this.messages = messages || []
     this.guesses = guesses || []
     this.result = result || false
+    this.stats = stats || []
+    this.oppSecretWord = oppSecretWord || ''
   }
 
   public static getInstance(
@@ -57,19 +63,22 @@ export class GameState {
     opp?: string,
     roomCode?: string,
     secretWord?: string,
+    oppSecretWord?: string,
     isPartyLeader?: boolean,
     isOppReady?: boolean,
     settings?: { revealWord: false; timer: 0 },
     turn?: boolean,
     messages?: [],
     guesses?: [],
-    result?: boolean
+    result?: boolean,
+    stats?: number[]
   ): GameState {
     if (!GameState.instance) {
       GameState.instance = new GameState(
         name,
         opp,
         secretWord,
+        oppSecretWord,
         roomCode,
         isPartyLeader,
         isOppReady,
@@ -77,7 +86,8 @@ export class GameState {
         turn,
         messages,
         guesses,
-        result
+        result,
+        stats
       )
     }
 
@@ -89,18 +99,21 @@ export class GameState {
     opp?: string,
     roomCode?: string,
     secretWord?: string,
+    oppSecretWord?: string,
     isPartyLeader?: boolean,
     isOppReady?: boolean,
     settings?: { revealWord: false; timer: 0 },
     turn?: boolean,
     messages?: [],
     guesses?: [],
-    result?: boolean
+    result?: boolean,
+    stats?: number[]
   ): GameState {
     GameState.instance = new GameState(
       name,
       opp,
       secretWord,
+      oppSecretWord,
       roomCode,
       isPartyLeader,
       isOppReady,
@@ -108,7 +121,8 @@ export class GameState {
       turn,
       messages,
       guesses,
-      result
+      result,
+      stats
     )
     return GameState.instance
   }

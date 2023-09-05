@@ -13,7 +13,7 @@ interface Props {
 }
 
 export default function MessageInput({
-  placeHolder = 'abcd...',
+  placeHolder = 'Type your message...',
   maxLength = 20,
   customStyle = {},
   value = '',
