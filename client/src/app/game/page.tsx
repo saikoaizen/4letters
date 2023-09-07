@@ -110,18 +110,14 @@ export default function GamePage() {
         gameState.stats.push(data.timeTakenB)
         gameState.stats.push(data.guessCountA)
         gameState.stats.push(data.guessCountB)
-        if (data.revealWord) {
-          gameState.oppSecretWord = data.secretWordB
-        }
       } else {
         gameState.stats.push(data.timeTakenB)
         gameState.stats.push(data.timeTakenA)
         gameState.stats.push(data.guessCountB)
         gameState.stats.push(data.guessCountA)
-        if (data.revealWord) {
-          gameState.oppSecretWord = data.secretWordA
-        }
       }
+
+      gameState.oppSecretWord = guessesList[guessesList.length - 1].text
 
       //Loading result page
       router.push('/result')
@@ -147,7 +143,9 @@ export default function GamePage() {
         gameState.stats.push(data.timeTakenA)
         gameState.stats.push(data.guessCountB)
         gameState.stats.push(data.guessCountA)
-        gameState.oppSecretWord = guessesList[guessesList.length - 1].text
+        if (data.revealWord) {
+          gameState.oppSecretWord = data.secretWordA
+        }
       }
 
       router.push('/result')
