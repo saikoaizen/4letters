@@ -147,9 +147,7 @@ export default function GamePage() {
         gameState.stats.push(data.timeTakenA)
         gameState.stats.push(data.guessCountB)
         gameState.stats.push(data.guessCountA)
-        if (data.revealWord) {
-          gameState.oppSecretWord = data.secretWordA
-        }
+        gameState.oppSecretWord = guessesList[-1].text
       }
 
       router.push('/result')
