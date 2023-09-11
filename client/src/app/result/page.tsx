@@ -2,7 +2,6 @@
 
 import { GameState } from '../util/GameState'
 import '../components/Common.css'
-import CustomButton from '../components/CustomButton'
 import colors from '../util/colors'
 
 export default function ResultPage() {
