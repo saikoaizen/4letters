@@ -9,14 +9,23 @@ https://4letters.vercel.app 🚀
 4letters is a word guessing game where you use logical deduction to figure out your opponent's secret word. This website is still development but basically functionality is live right now.
 
 # How to play 😃
-- Each player will choose a 4 letter SECRET WORD which does not contain repeating characters. Words such as "LION", "THIS", "LOST", "CATS".... are *ALLOWED* but words like "TENT" ('T' repeats), "RARE" ('R' repeats), "EGGS" ('G' repeats)... are *NOT ALLOWED*
-- Each player will make a guess during their turn. A guess has to be a 4 letter word without repeating characters.
-- After a guess is made, a number from 1-4 will be displayed as feedback. This number represents the number of matching letters between the opponent's secret word and your guess word. So for example, if the opponent's secret word is "LION" and your guess word is "LIME" then the feedback number would display '2' because the letters 'L' and 'I' are present in both the words.
-- The first one to correctly guess the opponent's secret word wins the game!
 
-Now you shouldn't just simple guess random words, you should make guesses using logical deduction. For example, if you guess "LION" and you get '0' then the letters 'L', 'I', 'O', 'N' are not present in the opponents word, so your next guess would probably be a word which doesn't contain those letters.
-So your next guess might be "WAKE" which doesn't contain any of the previous letters. Now, if you receive '2' then 2 letters in your guess are also present in the opponent's secret word. 
-You use this deductive method to figure out the letters and finally make the winning guess!
+**Objective:** The goal of this game is to guess your opponent's 4-letter secret word without repeating characters.
+
+**Setup:**
+1. Each player selects a 4-letter secret word without any repeating characters (e.g., "LION," "THIS," "LOST," "CATS" are allowed, but words like "TENT" with a repeated letter are not allowed).
+
+**Gameplay:**
+1. Players take turns making guesses.
+2. A guess must be a 4-letter word without repeating characters.
+3. After making a guess, you will receive a feedback number from 1 to 4.
+4. The feedback number indicates the number of matching letters between your guess and your opponent's secret word. For example, if the opponent's secret word is "LION," and your guess is "LIME," you would receive a feedback of '2' because the letters 'L' and 'I' are present in both words.
+5. Use deductive reasoning to make informed guesses. For instance, if you guess "LION" and receive '0' as feedback, it means none of the letters 'L,' 'I,' 'O,' or 'N' are in your opponent's word. Your next guess should avoid these letters. A logical guess might be "WAKE," which doesn't contain any of the previously mentioned letters.
+6. Continue making educated guesses based on the feedback until you correctly guess your opponent's secret word.
+
+**Winning:** The first player to correctly guess the opponent's secret word wins the game!
+
+Remember to use logical deduction and process of elimination to increase your chances of winning. Good luck and have fun playing! 🙌😄
 
 # FOR CONTRIBUTERS ❤️
 Thank for your interest in contributing to this project ~ 😊
