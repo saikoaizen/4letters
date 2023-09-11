@@ -5,7 +5,6 @@ import CustomInput from './CustomInput'
 import Image from 'next/image'
 import CopyLinkIcon from '../../../public/CopyLinkIcon.svg'
 import styles from './LinkDisplay.module.css'
-import colors from '../util/colors'
 
 export default function LinkDisplay({ link }: { link: string }) {
   const [copied, setCopied] = useState(false)
