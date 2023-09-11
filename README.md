@@ -13,7 +13,7 @@ https://4letters.vercel.app 🚀
 **Objective:** The goal of this game is to guess your opponent's 4-letter secret word without repeating characters.
 
 **Setup:**
-1. Each player selects a 4-letter secret word without any repeating characters (e.g., "LION," "THIS," "LOST," "CATS" are allowed, but words like "TENT" with a repeated letter are not allowed).
+Each player selects a 4-letter secret word without any repeating characters (e.g., "LION," "THIS," "LOST," "CATS" are allowed, but words like "TENT" with a repeated letter are not allowed).
 
 **Gameplay:**
 1. Players take turns making guesses.
