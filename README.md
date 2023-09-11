@@ -1,6 +1,6 @@
 # 4letters
 
-*STILL IN DEVELOPMENT* ⚙️👶
+***STILL IN DEVELOPMENT*** ⚙️👶
 
 Try out the game here!
 https://4letters.vercel.app 🚀
@@ -27,8 +27,7 @@ Each player selects a 4-letter secret word without any repeating characters (e.g
 
 Remember to use logical deduction and process of elimination to increase your chances of winning. Good luck and have fun playing! 🙌😄
 
-# FOR CONTRIBUTERS ❤️
-Thank for your interest in contributing to this project ~ 😊
+## FOR CONTRIBUTERS ❤️
 
 Please follow the instructions below to make run the project locally:
 
@@ -40,18 +39,19 @@ Please follow the instructions below to make run the project locally:
 
 2. **Install Dependencies:** Navigate to the project directory and install the necessary dependencies.
 
-  CLIENT
+- CLIENT
    ```bash
    cd 4letters
    cd client
    npm install
    ```
-  After installing the node modules, Create a .env.local file in the client root directory (i.e "4letters/client/") and add the following:
+- After installing the node modules, Create a .env.local file in the client root directory (i.e "4letters/client/") and add the following:
+  
   ```
   NEXT_PUBLIC_SOCKET_SERVER_URL=http://localhost:3001
   ```
   
-  SERVER
+- SERVER
   ```bash
   cd 4letters
   cd server
@@ -60,12 +60,12 @@ Please follow the instructions below to make run the project locally:
 
 3. **Run the Game:** Start the game server and launch the game interface.
 
-  in Server folder
+ - in 4letters/server
    ```bash
    npm start
    ```
 
-  in Client folder
+ - in 4letters/client
    ```bash
    npm start
    ```
