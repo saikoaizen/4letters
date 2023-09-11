@@ -48,12 +48,6 @@ export default function ResultPage() {
             </div>
           ))}
         </div>
-        <div
-          style={{ display: 'flex', gap: '0.5rem', flexDirection: 'column' }}
-        >
-          <CustomButton text="Play Again" color={colors.green} />
-          <CustomButton text="Home" color={colors.blue} />
-        </div>
       </div>
     </div>
   )
