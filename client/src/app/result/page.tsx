@@ -2,7 +2,6 @@
 
 import { GameState } from '../util/GameState'
 import '../components/Common.css'
-import colors from '../util/colors'
 
 export default function ResultPage() {
   const gameState = GameState.getInstance()
